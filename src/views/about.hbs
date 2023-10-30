@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Preguntas frecuentes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+
+    .wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .content-wrapper {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #0ba6bb;
+    }
+
+    .logo {
+      width: 50%;
+      text-align: center;
+      margin: 20px auto;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .logo span.sd {
+      color: #000000;
+    }
+
+    .logo span.lg {
+      color: #ff0000;
+    }
+
+    .faq {
+      margin-bottom: 20px;
+    }
+
+    .faq1 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+      color: #0ba6bb;
+    }
+
+    p {
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="content-wrapper">
+      <h1>Preguntas frecuentes</h1>
+
+      <div class="logo">
+        <span class="sd">SD</span>
+        <span class="lg">LG</span>
+      </div>
+
+      <div class="faq">
+        <h3>P: ¿Quiénes son ustedes?</h3>
+        <p>R: Somos SDLG-Solar Devices Lenght Gligars, una empresa basada en brindar información y orientar a las personas que quieran pasarse a usar paneles fotovoltaicos en sus casas.</p>
+      </div>
+
+      <div class="faq">
+        <h3>P: ¿Están asociados a algo?</h3>
+        <p>R: Somos afiliados de la empresa MANGLAR ubicada en Sincelejo, Sucre.</p>
+      </div>
+
+      <div class="faq">
+        <h3>P: ¿Cómo los podemos contactar?</h3>
+        <p>R: Para consultas personales, se pueden escribir al siguiente correo de atención: julzchota@gmail.com</p>
+      </div>
+
+      <!-- Agregamos un formulario para cargar archivos de Excel -->
+      <div class="faq">
+        <h3>P: Subir archivo de Excel</h3>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+          <input type="file" name="excelFile" accept=".xlsx">
+          <input type="submit" value="Subir y Procesar">
+        </form>
+      </div>
+
+      <!-- Agregamos un espacio para mostrar el resultado del procesamiento -->
+      <div id="resultado" class="faq"></div>
+
+      <div class="faq">
+        <h3>Donaciones</h3>
+      </div>
+
+      <img src="img/qr1.png" alt="Logo" style="display: block; margin: 0 auto; max-width: 330px;">
+      <img src="img/qr2.png" alt="Logo" style="display: block; margin: 0 auto; max-width: 330px;">
+      <img src="img/qr3.png" alt="Logo" style="display: block; margin: 0 auto; max-width: 330px;">
+
+    </div>
+  </div>
+
+  <!-- Agregamos una función JavaScript para mostrar el resultado del procesamiento -->
+  <script>
+    const resultadoDiv = document.getElementById('resultado');
+    const mostrarResultado = (mensaje) => {
+      resultadoDiv.innerHTML = `<h3>Resultado:</h3><p>${mensaje}</p>`;
+    }
+  </script>
+</body>
+
+</html>

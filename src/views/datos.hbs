@@ -1,0 +1,205 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.0/html2pdf.bundle.js" integrity="sha512-VqCeCECsaE2fYTxvPQk+OJ7+SQxzI1xZ6IqxuWd0GPKaJoeSFqeakVqNpMbx1AArieciBF71poL0dYTMiNgVxA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js"></script>
+  <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css" type="text/css" rel="stylesheet">
+  <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css" type="text/css" rel="stylesheet">
+  <style type="text/css">
+    html,
+    body,
+    #container {
+      width: 100%;
+      height: 400px; /* Cambia esta altura al valor deseado */
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+    }
+    .google-style-title {
+      color: #4285F4;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .google-style-content {
+      text-align: center;
+      color: #333;
+      font-size: 18px;
+    }
+    .google-style-content2 {
+      text-align: center;
+      color: #0987c2;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    #exportPDF {
+      padding: 10px;
+      background-color: #0ba6bb;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #exportPDF:hover {
+      background-color: #098c99;
+    }
+  </style>
+</head>
+<body>
+<div id="html2pdf">
+  <div class="wrapper">
+    <div class="content-wrapper">
+      <div class="google-style-title">Datos: {{user.name}}</div>
+      <div class="google-style-content">
+        <script>
+          var num1  = localStorage.getItem('num1');
+          document.write("Su hora solar pico es: " + num1 + "KWh/m2" + "\n");
+        </script>
+      </div>
+      <div class="google-style-content">
+        <script>
+          var inversor = localStorage.getItem('inversor');
+          document.write("Necesita un inversor de al menos: " + inversor + "Watts" + "\n");
+        </script>
+      </div>
+      <div class="google-style-content">
+        <script>
+          var resultadoreal = localStorage.getItem('resultadoreal');
+          document.write("El número de paneles necesitados es: " + resultadoreal + "\n");
+        </script>
+      </div>
+      
+      <div class="google-style-content">
+        <script>
+          var promediomesreal= localStorage.getItem('promediomes');
+          document.write("Su gasto promedio en el mes es : " + promediomesreal + "Kwatts" +"\n");
+        </script>
+      </div>
+      <div class="google-style-content">
+        <script>
+          var promediodiasreal= localStorage.getItem('promediodias');
+          document.write("Su gasto promedio en el dia es : " + promediodiasreal + "Kwatts" +"\n");
+        </script>
+      </div>
+      <div class="google-style-content2">
+        <script>
+          var precio = localStorage.getItem('precio');
+          document.write("El precio del sistema es: " + precio + "$" + "\n");
+        </script>
+       
+      </div>
+       <div id="container"></div>
+      <div style="padding: 0 50px;">
+        <button style="padding: 10px;" id="exportPDF">PDF</button>
+      </div>
+
+        <script>
+          const SerialPort = require("serialport").SerialPort;
+          const { DelimiterParser}= require("@serialport/parser-delimiter")
+          const puerto = new SerialPort({
+              path:"COM8",
+              baudRate: 9600
+
+            });
+          const parser = puerto.pipe(new DelimiterParser({delimiter:'\n'}))
+          parser.on('open',funtion(){
+              console.log("conexion");
+            });
+          parser.on("data",funtion(data){
+            var enc =new TextDecoder();
+            var arr = new Uint8Array(data);
+            ready = enc.decode(arr)
+            console.log(ready);
+            });
+          puerto.on ("error",function (err){
+              console.log(err);
+            });
+
+        </script>
+        
+      
+
+    </div>
+  </div>
+</div>
+
+<script>
+  var R1 = localStorage.getItem('R1');
+  var R2 = localStorage.getItem('R2');
+  var R3 = localStorage.getItem('R3');
+  var R4 = localStorage.getItem('R4');
+  var R5 = localStorage.getItem('R5');
+  var R6 = localStorage.getItem('R6');
+
+  anychart.onDocumentReady(function () {
+    // create column chart
+    var chart = anychart.column();
+
+    // turn on chart animation
+    chart.animation(true);
+
+    // set chart title text settings
+    chart.title('Su consumo los últimos 6 meses');
+
+    // create area series with passed data
+    var series = chart.column([
+      ['Mes 1', R1],
+      ['Mes 2', R2],
+      ['Mes 3', R3],
+      ['Mes 4', R4],
+      ['Mes 5', R5],
+      ['Mes 6', R6],
+
+    ]);
+
+    // set series tooltip settings
+    series.tooltip().titleFormat('{%X}');
+
+    series
+      .tooltip()
+      .position('center-top')
+      .anchor('center-bottom')
+      .offsetX(0)
+      .offsetY(5)
+      .format('{%Value}{groupsSeparator: }');
+
+    // set scale minimum
+    chart.yScale().minimum(0);
+
+    // set yAxis labels formatter
+    chart.yAxis().labels().format('{%Value}{groupsSeparator: }');
+
+    // tooltips position and interactivity settings
+    chart.tooltip().positionMode('point');
+    chart.interactivity().hoverMode('by-x');
+
+    // axes titles
+    chart.xAxis().title('MES');
+    chart.yAxis().title('WATTS');
+
+    // set container id for the chart
+    chart.container('container');
+
+    // initiate chart drawing
+    chart.draw();
+  });
+
+</script>
+
+</div>
+</div>
+</div>
+</body>
+<script>
+  let htmlPDF = document.getElementById("html2pdf");
+  let exportPDF = document.getElementById("exportPDF");
+  exportPDF.onclick = (e) => html2pdf(htmlPDF);
+</script>
+
+</html>

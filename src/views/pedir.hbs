@@ -1,0 +1,403 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Operaciones</title>
+  <style>
+ 
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+    }
+
+    .content-wrapper {
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #0ba6bb;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #0ba6bb;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #098c99;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    table th, table td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+      cursor: pointer;
+    }
+
+    table th:nth-child(4),
+    table td:nth-child(4) {
+      visibility: hidden;
+    }
+
+    .selected {
+      background-image: url('/img/Fondo2.jpg');
+      background-repeat: repeat;
+      z-index: 2;
+    }
+
+    table th {
+      background-color: #0ba6bb;
+      color: #fff;
+    }
+
+    table tr:hover {
+      background-image: url('/img/Fondo2.jpg');
+      background-repeat: repeat;
+      opacity: 0.5;
+      z-index: 1;
+    }
+
+    .mapa-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: none;
+      z-index: 9999;
+    }
+
+    .mapa-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 80%;
+      background-color: #fff;
+      display: none;
+      z-index: 10000;
+    }
+
+    .mapa {
+      width: 100%;
+      height: 100%;
+    }
+
+    #formContainer {
+      display: none;
+      overflow: hidden;
+    }
+
+    #formContainer.show {
+      display: block;
+    }
+
+    #result, #sop, #sopu {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f0f0f0;
+      border-radius: 4px;
+      display: none;
+    }
+
+    #result h2, #sop h2, #sopu h2 {
+      color: #0ba6bb;
+    }
+
+    
+/* Style the "Calcular datos" button */
+    #sumForm input[type="sub"] {
+      padding: 10px;
+      background-color: #0ba6bb;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* Style the "Seleccione el panel" button */
+    #panel-select {
+       padding: 10px;
+      background-color: #0ba6bb;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .negrita {
+      font-weight: bold;
+    }
+
+  
+</style>
+
+<div class="wrapper">
+    <!-- Content Wrapper. Contains page content -->
+|<div class="content-wrapper">
+  <h1>Ingrese sus datos</h1>
+
+      
+
+      
+        
+          
+          
+
+          <label for="panel-select">Seleccione el panel:</label>
+
+
+            <input type="button" id="panel-select" value="Seleccione el panel">
+
+            <table id="panel-table" style="display: none;">
+              <thead>
+                <tr>
+                  <th>Marca</th>
+                  <th>Potencia</th>
+                  <th>Precio</th>
+                  <th>Precio</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="selectRow(this)">
+                  <td>Eco Green Energy</td>
+                  <td>340 W</td>
+                  <td>$797.000</td>
+                  <td>797000</td>
+                </tr>
+                <tr onclick="selectRow(this)">
+                  <td>Longi Solar</td>
+                  <td>545 W</td>
+                  <td>$1.199.000</td>
+                  <td>1199000</td>
+                </tr>
+                <tr onclick="selectRow(this)">
+                  <td>Netion</td>
+                  <td>150 W</td>
+                  <td>$390.000</td>
+                  <td>390000</td>
+                </tr>
+                <tr onclick="selectRow(this)">
+                  <td>Solux</td>
+                  <td>390 W</td>
+                  <td>$850.000</td>
+                  <td>850000</td>
+                </tr>
+                <tr onclick="selectRow(this)">
+                  <td>Trina Solar</td>
+                  <td>500 W</td>
+                  <td>$1.050.000</td>
+                  <td>1050000</td>
+                </tr>
+                <tr onclick="selectRow(this)">
+                  <td>Jinko Solar</td>
+                  <td>330 W</td>
+                  <td>$710.000</td>
+                  <td>710000</td>
+                </tr>
+                <tr onclick="selectRow(this)">
+                  <td>Seraphim</td>
+                  <td>280 W</td>
+                  <td>$620.000</td>
+                  <td>620000</td>
+                </tr>
+              </tbody>
+            </table>
+            <input type="hidden" id="num2" name="num2" value="{{num2}}">
+            <input type="hidden" id="num3" name="num3" value="{{num3}}">
+            <!-- Aquí puedes agregar elementos ocultos para almacenar los valores de num2 y num3 según la selección del usuario -->
+            
+
+  <form action="/Dtos" method="POST">
+          <div class="form-group">
+            
+            <label for="num1">Radiación solar de tu ciudad (kWh/m²):</label><button class="content-wrappe" onclick="mostrarMapa()">Mostrar Mapa</button>
+          <input type="Number" step="0.01" id="num1" name="num1" value="{{num1}}" required><br> 
+
+           <div class="negrita">Ahora digite la potencia media (kW/mes) de cada uno de los últimos 6 meses que aparece en su recibo</div>
+            
+              <label for="R1">Recibo 1:</label>
+              <input type="Number" step="0.01" id="R1" name="R1" value="{{R1}}" required><br>
+
+              <label for="R2">Recibo 2:</label>
+              <input type="Number" step="0.01" id="R2" name="R2" value="{{R2}}" required><br>
+
+              <label for="R3">Recibo 3:</label>
+              <input type="Number" step="0.01" id="R3" name="R3" value="{{R3}}" required><br>
+
+              <label for="R4">Recibo 4:</label>
+              <input type="Number" step="0.01" id="R4" name="R4" value="{{R4}}" required><br>
+
+              <label for="R5">Recibo 5:</label>
+              <input type="Number" step="0.01" id="R5" name="R5" value="{{R5}}" required><br>
+
+              <label for="R6">Recibo 6:</label>
+              <input type="Number" step="0.01" id="R6" name="R6" value="{{R6}}" required><br>
+
+              <button class="btn btn-primary btn-block">
+            Subir datos a la base de datos 
+          </button>
+               
+
+
+
+            
+          
+  </form>
+   <input id="panel-select" type="button" value="Enviar" onclick="procesarFormulario()">
+              <button id="boton2" href="/datos"style="display: none;">Datos</button>
+            <script>
+              // Obtenemos referencias a los elementos del DOM
+              const panelSelectBtn = document.getElementById('panel-select');
+              const panelTable = document.getElementById('panel-table');
+              const num2Input = document.getElementById('num2');
+              const num3Input = document.getElementById('num3');
+
+              // Mostrar u ocultar la tabla al hacer clic en "Seleccione el panel"
+              panelSelectBtn.addEventListener('click', function() {
+                if (panelTable.style.display === 'none') {
+                  panelTable.style.display = 'block';
+                } else {
+                  panelTable.style.display = 'none';
+                }
+              });
+
+              // Asignar los valores de num2 y num3 cuando el usuario seleccione una fila
+              panelTable.addEventListener('click', function(event) {
+                const row = event.target.parentNode;
+                const marcaPanel = row.cells[0].textContent;
+                const potenciaPanel = row.cells[1].textContent;
+                const precioPanel = row.cells[3].textContent;
+
+                num2Input.value = potenciaPanel;
+                num3Input.value = precioPanel;
+              });
+            </script>
+          <div id="result" style="display: none;">
+            
+          <h2>Resultado:</h2>
+        </div>
+        <div id="sop" style="display: none;"></div>
+        <div id="sopu" style="display: none;"></div>
+      </div>
+        </div>
+   
+
+      <script>
+  
+  
+  const sumForm = document.getElementById('sumForm');
+  const resultDiv = document.getElementById('result');
+  const otroDiv = document.getElementById('result');
+  const lol = document.getElementById('sop');
+  const lo = document.getElementById('sopu');
+
+ 
+
+  
+  function procesarFormulario() {
+    const num1 = parseFloat(document.getElementById('num1').value);
+    const num3 = parseFloat(document.getElementById('num3').value);
+    const R1 = parseFloat(document.getElementById('R1').value);
+    const R2 = parseFloat(document.getElementById('R2').value);
+    const R3 = parseFloat(document.getElementById('R3').value);
+    const R4 = parseFloat(document.getElementById('R4').value);
+    const R5 = parseFloat(document.getElementById('R5').value);
+    const R6 = parseFloat(document.getElementById('R6').value);
+    const num2 = parseFloat(document.getElementById('num2').value);
+     
+    var sum = (R1 + R2 + R3 + R4 + R5 + R6) * (1000) / (6 * 30);
+    var promediomes = (R1 + R2 + R3 + R4 + R5 + R6) / 6;
+    var promediomesreal=Math.ceil(promediomes)
+    var promediodias =promediomes/30;
+    var promediodiasreal=Math.ceil(promediodias)
+    var Pnl = (sum * 1.3) / (num2 * num1);
+    var resultadoreal = Math.ceil(Pnl)
+    var inversor = resultadoreal * num2
+    var precio = num3 * resultadoreal
+
+    localStorage.setItem("inversor", inversor);
+     localStorage.setItem("resultadoreal", resultadoreal);
+      localStorage.setItem("precio", precio);
+      localStorage.setItem("sum", sum);
+      localStorage.setItem("R1", R1);
+      localStorage.setItem("R2", R2);
+      localStorage.setItem("R3", R3);
+      localStorage.setItem("R4", R4);
+      localStorage.setItem("R5", R5);
+      localStorage.setItem("R6", R6);
+      localStorage.setItem("promediomes", promediomesreal);
+      localStorage.setItem("promediodias", promediodiasreal);
+      localStorage.setItem("num1", num1);
+    window.location.href = '/datos';
+  
+  }
+  
+</script>
+<script>
+   function mostrarMapa() {
+      document.getElementById("mapaOverlay").style.display = "block";
+      document.getElementById("mapaContainer").style.display = "block";
+    }
+
+    function cerrarMapa() {
+      document.getElementById("mapaOverlay").style.display = "none";
+      document.getElementById("mapaContainer").style.display = "none";
+    }
+  document.addEventListener('DOMContentLoaded', function() {
+    const rows = document.querySelectorAll('table tbody tr');
+    rows.forEach(row => {
+      row.addEventListener('click', function() {
+        if (this.classList.contains('selected')) {
+          this.classList.remove('selected');
+        } else {
+          rows.forEach(row => row.classList.remove('selected'));
+          this.classList.add('selected');
+        }
+      });
+    });
+  });
+</script>
+<div class="mapa-overlay" id="mapaOverlay"></div>
+      <div class="mapa-container" id="mapaContainer">
+        <button onclick="cerrarMapa()">Cerrar Mapa</button>
+        <iframe class="mapa" src="https://www.google.com/maps/d/u/1/embed?mid=1d6PM-OuhSnXICSXZAtUU64jChDiQC_Bz"></iframe>
+      </div>
+
+ 
+</div>
+ </div>
+</body>
+
+
+</html>
